@@ -51,8 +51,6 @@ ui <- fluidPage(
       h5('https://github.com/misaelmmorales'),
       h5('updated: 03.2021'),
       h3(''),
-      div(img(src="logo_petrobowl.jpg", height="20%", width="20%"),
-          img(src="logo_SPE.png",       height="25%", width="25%"))
     ),
     mainPanel(
       h4(textOutput("current_date")),
