@@ -20,9 +20,9 @@ library(rsconnect) # to deploy on the web
 
 #### read the Excel Question banks ####
 wd <- getwd()                                 #set current folder as working dir
-xl_path <- "sample_Qbank.xlsx"     #define the question bank name
+xl_path <- "sample_Qbank.xlsx"                #define the question bank name
 df_path <- paste(wd, xl_path, sep="/")        #create a variable for full path
-df <- read_excel(path=df_path, sheet=1) #read excel into a df
+df <- read_excel(path=df_path, sheet=1)       #read excel into a df
 
 #### define the UI page ####
 ui <- fluidPage(
@@ -35,17 +35,13 @@ ui <- fluidPage(
       h3(''),
       radioButtons("n_team", label="Select team number", choices=c("A","B")),
       h3(''),
-      numericInput("gamelength", label="Total number of questions", 
-                   value=25, min=5, max=60, step=1),
+      numericInput("gamelength", label="Total number of questions", value=25, min=5, max=60, step=1),
       h3(''),
-      numericInput("gametime", label="Total game time (minutes)",
-                   value=4, min=1, max=10, step=1),
+      numericInput("gametime", label="Total game time (minutes)", value=4, min=1, max=10, step=1),
       h3(''),
-      numericInput("seconds", label="Question timer (seconds)", 
-                   value=15, min=1, max=60, step=1),
+      numericInput("seconds", label="Question timer (seconds)", value=15, min=1, max=60, step=1),
       h3(''),
-      passwordInput("startgame", label="Game Start Validation - 
-                    (type: 'start')"),
+      passwordInput("startgame", label="Game Start Validation - (type: 'start')"),
       h3(''),
       hr(style="border-top: 1px solid #000000;"),
       h5('2020-2021 PetroBowl'),
@@ -56,7 +52,7 @@ ui <- fluidPage(
       h5('updated: 03.2021'),
       h3(''),
       div(img(src="logo_petrobowl.jpg", height="20%", width="20%"),
-          img(src="logo_SPE.png",    height="25%", width="25%"))
+          img(src="logo_SPE.png",       height="25%", width="25%"))
     ),
     mainPanel(
       h4(textOutput("current_date")),
@@ -68,26 +64,21 @@ ui <- fluidPage(
                            tableOutput("question"),
                            h3(''),
                            #button to buzz-in for the given question
-                           actionButton("buzz_button", 
-                                        label="Buzz In", class="btn-success"),
+                           actionButton("buzz_button", label="Buzz In", class="btn-success"),
                            hr(style="border-top: 1px solid #000000;"),
                            disabled(textInput("answer", label="your answer:")),
+                           #button to submit answer
                            div(style="display: inline-block", 
-                               #button to submit answer
-                               actionButton("submit_button", label="Submit",
-                                            style="color: #FFFFFF; 
+                               actionButton("submit_button", label="Submit", style="color: #FFFFFF; 
                               background-color: #990000; 
-                              border-color:  #000000")),
-                           div(style="display: inline-block", 
-                               textOutput("timeleft")),
+                              border-color:     #000000")),
+                           div(style="display: inline-block", textOutput("timeleft")),
                            h3(''),
                            hr(style="border-top: 0.5px solid #000000;"),
+                           #button the go to the next question in the game
                            div(style="display:inline-block",
-                               #button the go to the next question in the game
-                               actionButton("next_button", label="Next Question",
-                                            class="btn-warning",icon("Submit"))),
-                           div(style="display:inline-block",
-                               h5('Question answered or timer expired. Next.'))
+                               actionButton("next_button", label="Next Question", class="btn-warning", icon("Submit"))),
+                           div(style="display:inline-block", h5('Question answered or timer expired. Next.'))
                   ),
                   # New tab to show answers and times for questions submitted
                   tabPanel("Results",
@@ -124,10 +115,8 @@ server <- function(input, output, session){
   timer <- reactiveVal(qtime)
   timer_total <- reactiveVal(60*total_gametime)
   active <- active_total <- reactiveVal(FALSE)
-  output$timeleft <- renderText({
-    paste("Time Remaining: ", seconds_to_period(timer()))})
-  output$game_time <- renderText({
-    paste("Game Time Remaining: ", seconds_to_period(timer_total()))})
+  output$timeleft <- renderText({paste("Time Remaining: ", seconds_to_period(timer()))})
+  output$game_time <- renderText({paste("Game Time Remaining: ", seconds_to_period(timer_total()))})
   
   #Reactive value for question counter (based on button for next question)
   counter <- reactiveValues(countervalue=0)
@@ -144,15 +133,12 @@ server <- function(input, output, session){
   
   ## second Tab (Results Summary)
   values <- reactiveValues()
-  values$df <- data.frame("Number"=NA, "Team"=NA, "Player"=NA, 
-                          "Time_elapsed"=NA, "Answer"=NA, "Question"=NA)
+  values$df <- data.frame("Number"=NA, "Team"=NA, "Player"=NA, "Time_elapsed"=NA, "Answer"=NA, "Question"=NA)
   newEntry <- observe({
     if(input$submit_button>0){
       newLine <- isolate(c(counter$countervalue+1, input$n_team, 
-                           input$user_name,
-                           qtime-seconds_to_period(timer()), input$answer, 
-                           df$Question[question_sample[counter$countervalue+1]]
-                           ))
+                           input$user_name, qtime-seconds_to_period(timer()), input$answer, 
+                           df$Question[question_sample[counter$countervalue+1]]))
       isolate(values$df <- rbind(values$df, newLine))
     }})
   output$results_table <- renderTable(values$df, colnames=TRUE)
@@ -183,12 +169,9 @@ server <- function(input, output, session){
       }})})
   
   #Observe action events for buttons (buzzer, submissions, next)
-  observeEvent(input$buzz_button, 
-               c({active(TRUE)},{active_total(TRUE)},{enable("answer")}))
+  observeEvent(input$buzz_button, c({active(TRUE)},{active_total(TRUE)},{enable("answer")}))
   observeEvent(input$submit_button, c({active(FALSE)},{disable("answer")}))
-  observeEvent(input$next_button, c({timer(input$seconds)},
-                                    {updateTextInput(session,"answer",value="")}
-                                    ))
+  observeEvent(input$next_button, c({timer(input$seconds)}, {updateTextInput(session,"answer",value="")}))
 }
 ################################# Run Shiny #################################### 
 shinyApp(ui=ui, server=server)
