@@ -10,9 +10,10 @@ This is an R/Shiny application design to emulate the SPE PetroBowl competition.
 ### USAGE ###
 - **Left panel**: user-controlled game details, including team, total number of questions, total game time, time per question, and a _start game_ validation.
 - **Main Page**: After validation, questions are displayed here, along with buttons for buzzing in, submitting answer, and moving to the next question. Timers show game time and question time remaining, as well as current question counter.
-![alt_text](https://github.com/misaelmmorales/PetroBowl-Simulator/blob/main/images/right_side.png)
 - **Results tab**: displays all the questions for which the user submitted an answer, along with the time taken to submit.
 - **Solution Key tab**: displays the correct answer for each of the questions in the game. This appears after total game time is over.
+![alt_text](https://github.com/misaelmmorales/PetroBowl-Simulator/blob/main/images/right_side.png)
+*Main Page panel preview*
 
 
 ### QUESTION BANK ###
