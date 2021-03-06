@@ -17,7 +17,8 @@ This is an R/Shiny application design to emulate the SPE PetroBowl competition.
 
 
 ### QUESTION BANK ###
-- Please use your own question-answer set for this simulator. The preferred format is MS Excel. A sample file (sample_Qbank.xlsx - https://github.com/misaelmmorales/PetroBowl-Simulator/blob/main/sample_Qbank.xlsx) is uploaded to demonstrate the format/headers of the .xlsx document
+- Please use your own question-answer set for this simulator. The preferred format is MS Excel. A sample file is uploaded to demonstrate the format/headers of the .xlsx document
+  - (sample_Qbank.xlsx - https://github.com/misaelmmorales/PetroBowl-Simulator/blob/main/sample_Qbank.xlsx)
 ![alt text](https://github.com/misaelmmorales/PetroBowl-Simulator/blob/main/images/sample_Qbank.png)
 
 ### SPE ###
