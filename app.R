@@ -41,6 +41,8 @@ ui <- fluidPage(
       h3(''),
       numericInput("seconds", label="Question timer (seconds)", value=15, min=1, max=60, step=1),
       h3(''),
+      sliderInput("randNG", label="Random Number Generator", value=42, min=1, max=100, step=1),
+      he(''),
       passwordInput("startgame", label="Game Start Validation - (type: 'start')"),
       h3(''),
       hr(style="border-top: 1px solid #000000;"),
@@ -94,6 +96,7 @@ server <- function(input, output, session){
   isolate({qtime <- input$seconds})           #isolate current game timing
   isolate({total_gametime <- input$gametime}) #isolate total game time
   isolate({length <- input$gamelength})       #isolate number of game questions
+  isolate({rand_num <- set.seed(input$randNG)}) 
   isolate({question_sample <- sample(df$N, length)}) #isolate question list
   
   #Header for time/date in the game
